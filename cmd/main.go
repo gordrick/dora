@@ -12,13 +12,10 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	var commandQueue = make(chan string, 100)
+	//var commandQueue = make(chan string, 100)
 
-	commandQueue <- "echo Hello World"
-	commandQueue <- "date"
-	commandQueue <- "ls -la"
-
-	go daemon.StartTimerThread(configuration.Directory, configuration.TimeInterval)
-	go daemon.StartWorkerThread(commandQueue)
+	go daemon.StartTimerThread(configuration.Directory, configuration.TimeInterval, configuration.CallBackURL)
+	//go daemon.StartWorkerThread(commandQueue)
+	//go http.StartServer(commandQueue)
 	select {}
 }

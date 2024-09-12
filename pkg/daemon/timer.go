@@ -2,6 +2,7 @@ package daemon
 
 import (
 	"fmt"
+	"github.com/gordrick/dora/pkg/http"
 	"github.com/osquery/osquery-go"
 	"log"
 	"os"
@@ -10,7 +11,7 @@ import (
 )
 
 // StartTimerThread starts the main timer thread for the daemon
-func StartTimerThread(directory string, timeInterval uint) {
+func StartTimerThread(directory string, timeInterval uint, callBackURL string) {
 	fmt.Println("Starting timer thread")
 	ticker := time.NewTicker(time.Duration(timeInterval) * time.Second)
 
@@ -18,7 +19,7 @@ func StartTimerThread(directory string, timeInterval uint) {
 		select {
 		case <-ticker.C:
 			//checkFileModificationStats(directory)
-			checkFileModificationStatsUsingOsquery(directory)
+			checkFileModificationStatsUsingOsquery(directory, callBackURL)
 		}
 	}
 }
@@ -44,7 +45,7 @@ func checkFileModificationStats(directory string) {
 }
 
 // Function that checks file modification stats using osquery
-func checkFileModificationStatsUsingOsquery(directory string) {
+func checkFileModificationStatsUsingOsquery(directory string, callBackURL string) {
 	fmt.Println("Checking file modification stats with osquery")
 	client, err := osquery.NewClient("/Users/gordrickmartin/.osquery/shell.em", 5*time.Second)
 	if err != nil {
@@ -66,7 +67,10 @@ func checkFileModificationStatsUsingOsquery(directory string) {
 		logString := fmt.Sprintf("Path: %s, Mtime: %s\n", r["path"], r["mtime"])
 		writeLogsToFile(logString)
 	}
-
+	err = http.SendTimerLogsCallback(callBackURL)
+	if err != nil {
+		log.Fatalf("Error sending logs to callback: %s", err)
+	}
 }
 
 // Function that writes logs to daemon log file
