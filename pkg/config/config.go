@@ -7,6 +7,7 @@ import (
 type Config struct {
 	Directory    string `mapstructure:"directory"`
 	TimeInterval uint   `mapstructure:"time_interval"`
+	CallBackURL  string `mapstructure:"callback_url"`
 }
 
 // LoadConfig loads config from file or override it with the command line arguments
