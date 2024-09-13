@@ -47,7 +47,12 @@ func checkFileModificationStats(directory string) {
 // Function that checks file modification stats using osquery
 func checkFileModificationStatsUsingOsquery(directory string, callBackURL string) {
 	fmt.Println("Checking file modification stats with osquery")
-	client, err := osquery.NewClient("/Users/gordrickmartin/.osquery/shell.em", 5*time.Second)
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalf("Error getting user home directory: %s", err)
+
+	}
+	client, err := osquery.NewClient(homeDir+"/.osquery/shell.em", 5*time.Second)
 	if err != nil {
 		log.Fatalf("Error connecting to osqueryd: %s", err)
 	}
@@ -76,7 +81,7 @@ func checkFileModificationStatsUsingOsquery(directory string, callBackURL string
 // Function that writes logs to daemon log file
 func writeLogsToFile(logs string) {
 	fmt.Println("Writing logs to file")
-	f, err := os.OpenFile("thread.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile("/var/log/dora_thread.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}

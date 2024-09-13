@@ -31,7 +31,7 @@ func logsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
 	}
-	logs, err := utils.ParseThreadLogFile("thread.log")
+	logs, err := utils.ParseThreadLogFile("/var/log/dora_thread.log")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
