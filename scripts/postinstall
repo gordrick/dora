@@ -10,6 +10,10 @@ fi
 
 chmod 644 /Library/LaunchDaemons/com.gordrick.dora.plist
 
+launchctl load /Library/LaunchDaemons/com.facebook.osqueryd.plist
+
+sleep 5
+
 launchctl load /Library/LaunchDaemons/com.gordrick.dora.plist
 
 echo "Dora installation completed at $(date)" >> /var/log/dora_install.log

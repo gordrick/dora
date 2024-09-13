@@ -16,5 +16,9 @@
     <string>/var/log/dora.log</string>
     <key>StandardErrorPath</key>
     <string>/var/log/dora.err</string>
+    <key>DependsOn</key>
+    <array>
+        <string>com.facebook.osqueryd</string>
+    </array>
 </dict>
 </plist>
