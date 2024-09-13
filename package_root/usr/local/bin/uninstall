@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo "Uninstalling dora..."
+
+if [ -f /usr/local/bin/dora ]; then
+    sudo rm /usr/local/bin/dora
+    echo "Removed binary"
+fi
+
+if [ -d /usr/local/etc/dora ]; then
+    sudo rm -rf /usr/local/etc/dora
+    echo "Removed configs"
+fi
+
+if [ -f /Library/LaunchDaemons/com.facebook.osqueryd.plist ]; then
+    sudo launchctl unload /Library/LaunchDaemons/com.facebook.osqueryd.plist
+    sudo rm /Library/LaunchDaemons/com.facebook.osqueryd.plist
+    echo "Removed osqueryd launch daemon"
+fi
+
+sudo rm -f /var/log/dora.log
+sudo rm -f /var/log/dora_install.log
+sudo rm -f /var/log/dora.err
+sudo rm -f /var/log/dora_thread.log
+sudo
+echo "Removed logs"
+
+SCRIPT_PATH="$0"
+echo "Removing uninstall script..."
+(sudo rm -f "$SCRIPT_PATH") &
+
+echo "Dora has been uninstalled and uninstall script removed."
