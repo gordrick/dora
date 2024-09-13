@@ -30,3 +30,4 @@ thread.log
 worker.log
 /main
 /dora.pkg
+/package_root/usr/local/bin/dora
