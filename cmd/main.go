@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gordrick/dora/pkg/config"
 	"github.com/gordrick/dora/pkg/daemon"
+	"github.com/gordrick/dora/pkg/http"
 )
 
 func main() {
@@ -12,10 +13,10 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	//var commandQueue = make(chan string, 100)
+	var commandQueue = make(chan string, 100)
 
 	go daemon.StartTimerThread(configuration.Directory, configuration.TimeInterval, configuration.CallBackURL)
-	//go daemon.StartWorkerThread(commandQueue)
-	//go http.StartServer(commandQueue)
+	go daemon.StartWorkerThread(commandQueue)
+	go http.StartServer(commandQueue)
 	select {}
 }

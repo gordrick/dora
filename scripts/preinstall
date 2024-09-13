@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ ! -f /var/osquery/osquery.em ] && [ ! -f /usr/local/bin/osqueryd ]; then
+    echo "osquery is not installed. Downloading and installing osquery."
+
+    OSQUERY_URL="https://pkg.osquery.io/darwin/osquery-5.13.1.pkg"
+
+    OSQUERY_PKG="/tmp/osquery.pkg"
+
+    curl -Lo "$OSQUERY_PKG" "$OSQUERY_URL"
+
+    if [ $? -ne 0 ]; then
+        echo "Failed to download osquery package. Exiting."
+        exit 1
+    fi
+
+    sudo installer -pkg "$OSQUERY_PKG" -target /
+
+    if [ $? -ne 0 ]; then
+        echo "Failed to install osquery. Exiting."
+        exit 1
+    fi
+
+    rm -f "$OSQUERY_PKG"
+
+    echo "osquery successfully installed."
+else
+    echo "osquery is already installed."
+fi
+
+exit 0

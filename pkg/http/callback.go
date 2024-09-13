@@ -9,7 +9,7 @@ import (
 )
 
 func SendTimerLogsCallback(url string) error {
-	logs, err := utils.ParseThreadLogFile("thread.log")
+	logs, err := utils.ParseThreadLogFile("/var/log/dora_thread.log")
 	if err != nil {
 		return err
 	}

@@ -14,7 +14,10 @@ type Config struct {
 func LoadConfig() (config Config, err error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+
+	//For local development
+	//viper.AddConfigPath(".")
+	viper.AddConfigPath("/usr/local/etc/dora")
 
 	err = viper.ReadInConfig()
 	if err != nil {

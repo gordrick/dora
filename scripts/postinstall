@@ -1,0 +1,21 @@
+#!/bin/bash
+
+chmod +x /usr/local/bin/dora
+
+mkdir -p /usr/local/etc/dora
+
+if [ ! -f /usr/local/etc/dora/config.yaml ]; then
+    cp /tmp/dora_config.yaml /usr/local/etc/dora/config.yaml
+fi
+
+chmod 644 /Library/LaunchDaemons/com.gordrick.dora.plist
+
+launchctl load /Library/LaunchDaemons/com.facebook.osqueryd.plist
+
+sleep 5
+
+launchctl load /Library/LaunchDaemons/com.gordrick.dora.plist
+
+echo "Dora installation completed at $(date)" >> /var/log/dora_install.log
+
+exit 0
